@@ -5,7 +5,7 @@
 근처 공연 플랫폼
 
 ## 개발환경
-- 'python 3.8+'
+- `python 3.8+`
 - **Framework** : Django
 
 ## 주요기능
