@@ -69,7 +69,11 @@ class Concert(models.Model):  # 공연
     con_whe = models.CharField(max_length=100)
     con_tag = models.CharField(max_length=50)
     con_detail = models.CharField(max_length=500)
-    con_pay = enumerate('유료', '무료')
+    PAY_CHOICES = [
+        ('유료', '유료'),
+        ('무료', '무료'),
+    ]
+    con_pay = models.CharField(max_length=10, choices=PAY_CHOICES)
     con_sum_img = models.ImageField(upload_to='images/', null=True, blank=True)
     con_numb = models.CharField(max_length=20, validators=[RegexValidator(
         r'^\d{2,3}-\d{3,4}-\d{4}$')])  # 정규표현식으로 전화번호 형식 지정
