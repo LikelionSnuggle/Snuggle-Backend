@@ -101,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'django_back.User'
+# AUTH_USER_MODEL = 'django_back.User'
 
 
 # Internationalization
