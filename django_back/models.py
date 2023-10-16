@@ -58,10 +58,15 @@ class Page_notice(models.Model):  # 페이지 공지
         return super().save(*args, **kwargs)
 
 
+class Sub_page(models.Model):
+    user_seq2 = models.ForeignKey(User, on_delete=models.CASCADE)
+    page_seq = models.ForeignKey(Page, on_delete=models.CASCADE)
+
+
 class Concert(models.Model):  # 공연
+    con_seq = models.IntegerField()
     # User의 user_seq를 foreign key로 연결
     user_seq = models.ForeignKey(User, on_delete=models.CASCADE)
-    con_seq = models.IntegerField()
 
     con_name = models.CharField(max_length=100)
     con_who = models.CharField(max_length=100)
@@ -83,12 +88,23 @@ class Concert(models.Model):  # 공연
 
 
 class Concert_location(models.Model):  # 공연 위치
+    # Concert와 1대1로 연결
+    con_seq = models.OneToOneField(Concert, on_delete=models.CASCADE)
+
     lat = models.FloatField()
     lon = models.FloatField()
     address = models.CharField(max_length=100)
 
 
+class Sub_concert(models.Model):
+    user_seq2 = models.ForeignKey(User, on_delete=models.CASCADE)
+    con_seq = models.ForeignKey(Concert, on_delete=models.CASCADE)
+
+
 class Calender(models.Model):
+    page_seq = models.OneToOneField(Page, on_delete=models.CASCADE)
+    con_seq = models.OneToOneField(Concert, on_delete=models.CASCADE)
+
     name = models.CharField(max_length=100)
     content = models.TextField()
 
