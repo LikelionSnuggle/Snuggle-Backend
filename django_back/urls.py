@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
-
-from .views import UserViewSet, PerformanceViewSet, PageViewSet, PageInfoViewSet, PageNotificationViewSet, PerformanceListViewSet, CalenderViewSet
+from . import views
+from .views import UserViewSet, PerformanceViewSet, PageViewSet, PageInfoViewSet, PageNotificationViewSet, PerformanceListViewSet, CalenderViewSet, Search
 
 from rest_framework import routers
 
@@ -16,4 +16,5 @@ routers.register('calender', CalenderViewSet)
 
 urlpatterns = [
     path('api/', include(routers.urls)),
+    path('search/<str:searchword>', views.Search)
 ]
