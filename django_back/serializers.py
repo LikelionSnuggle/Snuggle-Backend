@@ -1,5 +1,5 @@
 import rest_framework.serializers as serializers
-from .models import User
+from .models import User, Page, Page_intro, Page_notice, Concert, Concert_location, Calender
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -7,32 +7,38 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
-# class PerformanceSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Performance
-#         fields = '__all__'
 
-# class PageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Page
-#         fields = '__all__'
+class PageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Page
+        fields = '__all__'
 
-# class PageInfoSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = PageInfo
-#         fields = '__all__'
 
-# class PageNotificationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = PageNotification
-#         fields = '__all__'
+class PageIntroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Page_intro
+        fields = '__all__'
 
-# class PerformanceListSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = PerformanceList
-#         fields = '__all__'
 
-# class CalenderSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Calender
-#         fields = '__all__'
+class PageNoticeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Page_notice
+        fields = '__all__'
+
+
+class ConcertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Concert
+        fields = '__all__'
+
+
+class ConcertLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Concert_location
+        fields = '__all__'
+
+
+class CalenderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Calender
+        fields = '__all__'
