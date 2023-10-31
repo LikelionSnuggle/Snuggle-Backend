@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class User(models.Model):  # 사용자
-    user_seq = models.IntegerField()
+    user_seq = models.IntegerField(primary_key=True)
 
     user_pho = models.CharField(max_length=20, validators=[RegexValidator(
         r'^\d{2,3}-\d{3,4}-\d{4}$')])  # 정규표현식으로 전화번호 형식 지정
@@ -19,7 +19,7 @@ class User(models.Model):  # 사용자
 
 
 class Page(models.Model):  # 페이지
-    page_seq = models.IntegerField()
+    page_seq = models.IntegerField(primary_key=True)
 
     # Page와 1대다로 연결
     # User의 user_seq를 foreign key로 연결
@@ -46,7 +46,8 @@ class Page_intro(models.Model):  # 페이지 소개
 class Page_notice(models.Model):  # 페이지 공지
     # Page와 1대다로 연결
     # Page의 page_seq를 foreign key로 연결
-    page_seq = models.ForeignKey(Page, on_delete=models.CASCADE)
+    page_seq = models.ForeignKey(
+        Page, on_delete=models.CASCADE, related_name='page_notice')
 
     noti_time = models.DateField()  # 작성시간
     noti_con = models.CharField(max_length=500)
@@ -64,7 +65,7 @@ class Sub_page(models.Model):
 
 
 class Concert(models.Model):  # 공연
-    con_seq = models.IntegerField()
+    con_seq = models.IntegerField(primary_key=True)
     # User의 user_seq를 foreign key로 연결
     user_seq = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -89,11 +90,14 @@ class Concert(models.Model):  # 공연
 
 class Concert_location(models.Model):  # 공연 위치
     # Concert와 1대1로 연결
-    con_seq = models.OneToOneField(Concert, on_delete=models.CASCADE)
+    con_seq = models.OneToOneField(
+        Concert, on_delete=models.CASCADE, related_name='Concert_location')
 
     lat = models.FloatField()
     lon = models.FloatField()
     address = models.CharField(max_length=100)
+
+    # TODO: 가까운 정보 추가
 
 
 class Sub_concert(models.Model):
