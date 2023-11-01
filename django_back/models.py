@@ -64,10 +64,23 @@ class Sub_page(models.Model):
     page_seq = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
+class Concert_location(models.Model):  # 공연 위치
+
+    lat = models.FloatField()
+    lon = models.FloatField()
+    address = models.CharField(max_length=100)
+
+    # TODO: 가까운 정보 추가
+
+
 class Concert(models.Model):  # 공연
     con_seq = models.IntegerField(primary_key=True)
     # User의 user_seq를 foreign key로 연결
     user_seq = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # Concert_location와 1대1로 연결
+    concert_location = models.OneToOneField(
+        Concert_location, on_delete=models.CASCADE, related_name='concert', null=True, blank=True)
 
     con_name = models.CharField(max_length=100)
     con_who = models.CharField(max_length=100)
@@ -86,18 +99,6 @@ class Concert(models.Model):  # 공연
 
     def __str__(self):
         return self.con_name
-
-
-class Concert_location(models.Model):  # 공연 위치
-    # Concert와 1대1로 연결
-    con_seq = models.OneToOneField(
-        Concert, on_delete=models.CASCADE, related_name='Concert_location')
-
-    lat = models.FloatField()
-    lon = models.FloatField()
-    address = models.CharField(max_length=100)
-
-    # TODO: 가까운 정보 추가
 
 
 class Sub_concert(models.Model):
