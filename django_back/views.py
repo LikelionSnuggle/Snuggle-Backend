@@ -6,33 +6,49 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.views import APIView
 
-from .models import User, Performance, Page, PageInfo, PageNotification, PerformanceList, Calender
-from .serializers import UserSerializer, PerformanceSerializer, PageSerializer, PageInfoSerializer, PageNotificationSerializer, PerformanceListSerializer, CalenderSerializer
+from .models import *
+from .serializers import *
 
-    
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class PerformanceViewSet(viewsets.ModelViewSet):
-    queryset = Performance.objects.all()
-    serializer_class = PerformanceSerializer
 
-class PageViewSet(viewsets.ModelViewSet):
+class PageDetail(viewsets.ModelViewSet):
     queryset = Page.objects.all()
-    serializer_class = PageSerializer
-    
-class PageInfoViewSet(viewsets.ModelViewSet):
-    queryset = PageInfo.objects.all()
-    serializer_class = PageInfoSerializer
+    serializer_class = PageDetailSerializer
 
-class PageNotificationViewSet(viewsets.ModelViewSet):
-    queryset = PageNotification.objects.all()
-    serializer_class = PageNotificationSerializer
 
-class PerformanceListViewSet(viewsets.ModelViewSet):
-    queryset = PerformanceList.objects.all()
-    serializer_class = PerformanceListSerializer
+class PageList(viewsets.ModelViewSet):
+    queryset = Page.objects.all()
+    serializer_class = PageListSerializer
+
+
+class PageIntroViewSet(viewsets.ModelViewSet):
+    queryset = Page_intro.objects.all()
+    serializer_class = PageIntroSerializer
+
+
+class PageNoticeViewSet(viewsets.ModelViewSet):
+    queryset = Page_notice.objects.all()
+    serializer_class = PageNoticeSerializer
+
+
+class ConcertDetail(viewsets.ModelViewSet):
+    queryset = Concert.objects.all()
+    serializer_class = ConcertDetailSerializer
+
+
+class ConcertList(viewsets.ModelViewSet):
+    queryset = Concert.objects.all()
+    serializer_class = ConcertListSerializer
+
+
+class ConcertLocationViewSet(viewsets.ModelViewSet):
+    queryset = Concert_location.objects.all()
+    serializer_class = ConcertLocationSerializer
+
 
 class CalenderViewSet(viewsets.ModelViewSet):
     queryset = Calender.objects.all()
