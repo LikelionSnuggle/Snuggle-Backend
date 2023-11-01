@@ -6,8 +6,8 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.views import APIView
 
-from .models import User, Page, Page_intro, Page_notice, Concert, Concert_location, Calender
-from .serializers import UserSerializer, PageSerializer, PageIntroSerializer, PageNoticeSerializer, ConcertSerializer, ConcertLocationSerializer, CalenderSerializer
+from .models import *
+from .serializers import *
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -15,9 +15,14 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class PageViewSet(viewsets.ModelViewSet):
+class PageDetail(viewsets.ModelViewSet):
     queryset = Page.objects.all()
-    serializer_class = PageSerializer
+    serializer_class = PageDetailSerializer
+
+
+class PageList(viewsets.ModelViewSet):
+    queryset = Page.objects.all()
+    serializer_class = PageListSerializer
 
 
 class PageIntroViewSet(viewsets.ModelViewSet):
@@ -30,9 +35,14 @@ class PageNoticeViewSet(viewsets.ModelViewSet):
     serializer_class = PageNoticeSerializer
 
 
-class ConcertViewSet(viewsets.ModelViewSet):
+class ConcertDetail(viewsets.ModelViewSet):
     queryset = Concert.objects.all()
-    serializer_class = ConcertSerializer
+    serializer_class = ConcertDetailSerializer
+
+
+class ConcertList(viewsets.ModelViewSet):
+    queryset = Concert.objects.all()
+    serializer_class = ConcertListSerializer
 
 
 class ConcertLocationViewSet(viewsets.ModelViewSet):
