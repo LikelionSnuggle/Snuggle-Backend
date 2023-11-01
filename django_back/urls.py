@@ -5,7 +5,6 @@ from .views import *
 from rest_framework import routers
 
 from django.conf import settings
-from django.conf.urls.static import static
 
 routers = routers.DefaultRouter()
 routers.register('user', UserViewSet)
@@ -23,5 +22,3 @@ urlpatterns = [
     path('concert/', ConcertList.as_view({'get': 'list'})),
     path('concert/<int:pk>/', ConcertDetail.as_view({'get': 'retrieve'})),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
