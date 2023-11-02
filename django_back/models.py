@@ -18,6 +18,13 @@ class User(models.Model):  # 사용자
         return self.us_name
 
 
+class Hashtag(models.Model):
+    content = models.TextField(unique=True)
+
+    def __str__(self):
+        return self.content
+
+
 class Page(models.Model):  # 페이지
     page_seq = models.IntegerField(primary_key=True)
 
@@ -29,6 +36,9 @@ class Page(models.Model):  # 페이지
     page_int = models.CharField(max_length=500, null=True, blank=True)
     page_not = models.CharField(max_length=500, null=True, blank=True)
     page_img = models.ImageField(upload_to='images/', null=True, blank=True)
+
+    hashtags = models.ManyToManyField(
+        Hashtag, related_name='pages', blank=True)
 
     def __str__(self):
         return self.page_name
@@ -96,6 +106,9 @@ class Concert(models.Model):  # 공연
     con_sum_img = models.ImageField(upload_to='images/', null=True, blank=True)
     con_numb = models.CharField(max_length=20, validators=[RegexValidator(
         r'^\d{2,3}-\d{3,4}-\d{4}$')])  # 정규표현식으로 전화번호 형식 지정
+
+    hashtags = models.ManyToManyField(
+        Hashtag, related_name='concerts', blank=True)
 
     def __str__(self):
         return self.con_name
