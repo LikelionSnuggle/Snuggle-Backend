@@ -24,7 +24,7 @@ urlpatterns = [
     path('concert/', ConcertList.as_view({'get': 'list'})),
     path('concert/<int:pk>/', ConcertDetail.as_view({'get': 'retrieve'})),
 
-    path('accounts/', include('accounts.urls')),
+    # path('accounts/', include('accounts.urls')),
 ]
 
 urlpatterns += routers.urls
