@@ -49,6 +49,30 @@ class ConcertDetailSerializer(serializers.ModelSerializer):
         model = Concert
         fields = '__all__'
 
+    def update(self, instance, validated_data):
+        concert_location_data = validated_data.pop('concert_location')
+        concert_location = Concert_location.objects.get(
+            con_seq=instance.con_seq)
+        concert_location.lat = concert_location_data.get(
+            'lat', concert_location.lat)
+        concert_location.lon = concert_location_data.get(
+            'lon', concert_location.lon)
+        concert_location.address = concert_location_data.get(
+            'address', concert_location.address)
+        concert_location.save()
+
+        instance.con_name = validated_data.get('con_name', instance.con_name)
+        instance.con_who = validated_data.get('con_who', instance.con_who)
+        instance.con_time = validated_data.get('con_time', instance.con_time)
+        instance.con_whe = validated_data.get('con_whe', instance.con_whe)
+        instance.con_tag = validated_data.get('con_tag', instance.con_tag)
+        instance.con_pay = validated_data.get('con_pay', instance.con_pay)
+        instance.con_sum_img = validated_data.get(
+            'con_sum_img', instance.con_sum_img)
+        instance.user_seq = validated_data.get('user_seq', instance.user_seq)
+        instance.save()
+        return instance
+
 
 class ConcertListSerializer(serializers.ModelSerializer):
     concert_location = ConcertLocationSerializer()
@@ -57,6 +81,14 @@ class ConcertListSerializer(serializers.ModelSerializer):
         model = Concert
         fields = ('con_name', 'con_who', 'con_time', 'con_whe', 'con_tag',
                   'con_pay', 'con_sum_img', 'user_seq', 'concert_location')
+
+    def create(self, validated_data):
+        concert_location_data = validated_data.pop('concert_location')
+        concert_location = Concert_location.objects.create(
+            **concert_location_data)
+        concert = Concert.objects.create(
+            concert_location=concert_location, **validated_data)
+        return concert
 
 
 class CalenderSerializer(serializers.ModelSerializer):
