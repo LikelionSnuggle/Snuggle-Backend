@@ -16,5 +16,5 @@ routers.register('calender', CalenderViewSet)
 
 urlpatterns = [
     path('api/', include(routers.urls)),
-    path('search/<str:searchword>', views.Search)
+    path('hashtag/', include("hashtag.urls")),
 ]

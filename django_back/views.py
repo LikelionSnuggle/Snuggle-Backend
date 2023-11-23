@@ -14,7 +14,7 @@ from .serializers import UserSerializer, PerformanceSerializer, PageSerializer, 
 
 from django.views.generic.edit import FormView
 from django.db.models import Q
-# from django.shortcuts import render 
+from django.shortcuts import render 
     
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -43,6 +43,7 @@ class PerformanceListViewSet(viewsets.ModelViewSet):
 class CalenderViewSet(viewsets.ModelViewSet):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
+    
     
 def Search(request, searchword):
     Performances = Performance.objects.all().filter(
