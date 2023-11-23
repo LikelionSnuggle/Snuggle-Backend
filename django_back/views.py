@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 
-
+from django import request
 # from main import models, serializers
 # from django_filters.rest_framework import DjangoFilterBackend
 
@@ -12,9 +12,10 @@ from rest_framework.views import APIView
 from .models import User, Performance, Page, PageInfo, PageNotification, PerformanceList, Calender
 from .serializers import UserSerializer, PerformanceSerializer, PageSerializer, PageInfoSerializer, PageNotificationSerializer, PerformanceListSerializer, CalenderSerializer
 
-from django.views.generic.edit import FormView
-from django.db.models import Q
-from django.shortcuts import render 
+# from django.views.generic.edit import FormView
+# from search.forms import PostSearchForm
+# from django.db.models import Q
+# from django.shortcuts import render 
     
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -45,15 +46,30 @@ class CalenderViewSet(viewsets.ModelViewSet):
     serializer_class = CalenderSerializer
     
     
-def Search(request, searchword):
-    Performances = Performance.objects.all().filter(
-            Q(name__icontains=searchword) | #이름 검색
-            Q(content=searchword) #내용 검색
-        )
-    serializer = PerformanceSerializer(Performances, many=True)
+# def Search(request, searchword):
+#     Performances = Performance.objects.all().filter(
+#             Q(name__icontains=searchword) | #이름 검색
+#             Q(content=searchword) #내용 검색
+#         )
+#     serializer = PerformanceSerializer(Performances, many=True)
     
-    return Response(serializer.data)
+#     return Response(serializer.data)
 
+# def temp(reqeust):
+    
+#     if 'kw' in request.GET:
+#         query = request.GET.get('kw')
+#         performances = Performance.objects.all().filter(
+#             Q(name__icontains=query) | #이름 검색
+#             Q(content__icontains=query) #내용 검색
+#         )
+    
+#     return render(request, 'search.html', {'query':query, 'performances':performances})
+
+# class SearchFormView(FormView):
+#     form_class = PostSearchForm
+#     template_name = 'search/post_search.html'
+#     post_list =Post.object.filter(Q)
  
 # class SearchPerformanceViewSet(viewsets.ModelViewSet):
 #     queryset = models.Book.objects.all()
