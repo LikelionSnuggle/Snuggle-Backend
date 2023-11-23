@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.utils import timezone
-from accounts.models import User
+# from accounts.models import User
+from django.contrib.auth.models import User
 
 
 # class User(models.Model):  # 사용자
