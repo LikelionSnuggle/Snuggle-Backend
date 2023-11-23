@@ -52,8 +52,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_back',
     'rest_framework',
-    'corsheaders',
+    'rest_framework.authtoken',  # 토큰 인증 추가
+    'corsheaders',  # CORS 추가
+    'accounts',  # accounts 추가
 ]
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # CORS 추가
@@ -72,7 +77,7 @@ ROOT_URLCONF = 'snuggle.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,6 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        # 'NAME': 'users.validators.CustomPasswordValidator',  # 비밀번호 유효성 추가
+    }
 ]
 
 # AUTH_USER_MODEL = 'django_back.User'
@@ -135,9 +143,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'django_back', 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
