@@ -14,11 +14,11 @@ routers.register('pageinfo', PageInfoViewSet)
 routers.register('pagenotification', PageNotificationViewSet)
 routers.register('preformancelist', PerformanceListViewSet)
 routers.register('calender', CalenderViewSet)
-# routers.register('accounts', include('accounts.urls'))
 
 urlpatterns = [
     path('api/', include(routers.urls)),
     path('accounts/', include('accounts.urls')),
+    # path('admin/', admin.site.urls),
 ]
 
 urlpatterns += routers.urls

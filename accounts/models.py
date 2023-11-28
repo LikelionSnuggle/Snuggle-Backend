@@ -1,18 +1,16 @@
+# 회원가입
 from django.db import models
 
-# Create your models here.
+from django.contrib.auth.models import User
 
 
-class User(models.Model):
-    username = models.CharField(max_length=45)
-    email = models.CharField(max_length=300)
-    tel = models.CharField(max_length=45)
+class UserInfo(models.Model):
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField()
+    tel = models.CharField(max_length=20)
     birth = models.DateField()
-    # id = models.CharField(max_length=20).primary_key = True
-    password1 = models.CharField(max_length=400)
-    password2 = models.CharField(max_length=400)
+    # password1 = models.CharField(max_length=400)
+    # password2 = models.CharField(max_length=400)
 
-    USERNAME_FIELD = 'username'
-
-    class Meta:
-        db_table = 'users'
+    # 들어갈정보? -> 닉네임,이메일, 전화번호, 생일, 아이디, 비밀번호,
+# + 회원일련번호
