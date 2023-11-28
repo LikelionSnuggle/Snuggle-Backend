@@ -3,7 +3,7 @@
 {% block content %}
   <div>
     <h2>{{ hashtag.content }}</h2>
-    <p>{{ movies|length }}개의 게시글</p>
+    <p>{{ concerts|length }}개의 게시글</p>
   </div>
   
   <hr>
@@ -11,8 +11,8 @@
   <div>
     <h3>{{ hashtag.content }} (을)를 태그한 글</h3>
     <br>
-    {% for movie in movies %}
-      <h5>{{ movie.name }}</h5>
+    {% for concert in concerts %}
+      <h5>{{ concert.name }}</h5>
       <hr>
     {% endfor %}
   </div>
