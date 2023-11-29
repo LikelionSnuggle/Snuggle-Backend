@@ -27,14 +27,14 @@ class PageMemberSerializer(serializers.ModelSerializer):
 
 
 class PageDetailSerializer(serializers.ModelSerializer):
-    page_intro = PageIntroSerializer()
-    page_notice = PageNoticeSerializer(many=True)
-    page_member = PageMemberSerializer(many=True)
+    Page_intro = PageIntroSerializer()
+    Page_notice = PageNoticeSerializer(many=True)
+    Page_member = PageMemberSerializer(many=True)
 
     class Meta:
         model = Page
         fields = ('user_seq', 'page_name',
-                  'page_img', 'page_notice', 'page_intro', 'page_member')
+                  'page_img', 'Page_notice', 'Page_intro', 'Page_member')
 
 
 class PageListSerializer(serializers.ModelSerializer):
@@ -44,7 +44,7 @@ class PageListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Page
-        fields = ('user_seq', 'page_name', 'page_img',
+        fields = ('page_seq', 'user_seq', 'page_name', 'page_img',
                   'Page_intro', 'Page_notice', 'Page_member')
 
     def create(self, validated_data):
