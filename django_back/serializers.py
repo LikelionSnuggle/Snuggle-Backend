@@ -1,5 +1,5 @@
 import rest_framework.serializers as serializers
-from .models import User, Page, Page_intro, Page_notice, Concert, Concert_location, Calender
+from .models import User, Page, Page_intro, Page_notice, Page_member, Concert, Concert_location, Calender
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 class PageIntroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page_intro
-        fields = ('intro_detail', 'intro_link', 'intro_man')
+        fields = ('intro_detail', 'intro_link',)
 
 
 class PageNoticeSerializer(serializers.ModelSerializer):
@@ -20,20 +20,47 @@ class PageNoticeSerializer(serializers.ModelSerializer):
         fields = ('noti_time', 'noti_con', 'noti_img')
 
 
+class PageMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Page_member
+        fields = ('name', 'img', 'role')
+
+
 class PageDetailSerializer(serializers.ModelSerializer):
-    page_intro = PageIntroSerializer()
-    page_notice = PageNoticeSerializer(many=True)
+    Page_intro = PageIntroSerializer()
+    Page_notice = PageNoticeSerializer(many=True)
+    Page_member = PageMemberSerializer(many=True)
 
     class Meta:
         model = Page
-        fields = ('user_seq', 'page_name', 'page_int', 'page_not',
-                  'page_img', 'page_notice', 'page_intro')
+        fields = ('user_seq', 'page_name',
+                  'page_img', 'Page_notice', 'Page_intro', 'Page_member')
 
 
 class PageListSerializer(serializers.ModelSerializer):
+    Page_intro = PageIntroSerializer()
+    Page_notice = PageNoticeSerializer(many=True)
+    Page_member = PageMemberSerializer(many=True)
+
     class Meta:
         model = Page
-        fields = '__all__'
+        fields = ('page_seq', 'user_seq', 'page_name', 'page_img',
+                  'Page_intro', 'Page_notice', 'Page_member')
+
+    def create(self, validated_data):
+        page_intro_data = validated_data.pop('Page_intro')
+        page_notice_data = validated_data.pop('Page_notice')
+        page_member_data = validated_data.pop('Page_member')
+
+        page = Page.objects.create(**validated_data)
+
+        Page_intro.objects.create(page_seq=page, **page_intro_data)
+        for notice_data in page_notice_data:
+            Page_notice.objects.create(page_seq=page, **notice_data)
+        for member_data in page_member_data:
+            Page_member.objects.create(page_seq=page, **member_data)
+
+        return page
 
 
 class ConcertLocationSerializer(serializers.ModelSerializer):
