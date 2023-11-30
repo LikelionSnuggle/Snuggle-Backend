@@ -1,4 +1,3 @@
-import os
 """
 Django settings for snuggle project.
 
@@ -11,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,12 +50,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_back',
     'rest_framework',
+    'django_filters',
+    'hashtag.apps.HashtagConfig',
     'rest_framework.authtoken',  # 토큰 인증 추가
     'corsheaders',  # CORS 추가
     'accounts',  # accounts 추가
+    'dj_rest_auth',  # dj_rest_auth 추가
+    'dj_rest_auth.registration',  # dj_rest_auth.registration 추가
+    'allauth',  # allauth 추가
+    'allauth.account',  # allauth.account 추가
 ]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -70,6 +81,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # whitenoise 추가
+    'allauth.account.middleware.AccountMiddleware',  # allauth 추가
 ]
 
 ROOT_URLCONF = 'snuggle.urls'
@@ -88,6 +100,7 @@ TEMPLATES = [
             ],
         },
     },
+
 ]
 
 WSGI_APPLICATION = 'snuggle.wsgi.application'
@@ -120,9 +133,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-    {
-        # 'NAME': 'users.validators.CustomPasswordValidator',  # 비밀번호 유효성 추가
-    }
 ]
 
 # AUTH_USER_MODEL = 'django_back.User'
@@ -148,14 +158,21 @@ STATIC_URL = '/static/'
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+'''
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'django_back', 'static'),
 ]
+'''
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 # 미디어 파일 관련
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
