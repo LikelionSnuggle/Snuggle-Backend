@@ -33,8 +33,8 @@ class Page(models.Model):  # 페이지
     user_seq = models.ForeignKey(User, on_delete=models.CASCADE)
 
     page_name = models.CharField(max_length=100)
-    page_int = models.CharField(max_length=500, null=True, blank=True)
-    page_not = models.CharField(max_length=500, null=True, blank=True)
+    # page_int = models.CharField(max_length=500, null=True, blank=True)
+    # page_not = models.CharField(max_length=500, null=True, blank=True)
     page_img = models.ImageField(upload_to='images/', null=True, blank=True)
 
     def __str__(self):
@@ -44,22 +44,34 @@ class Page(models.Model):  # 페이지
         ordering = ['-page_seq']  # 최신순으로 정렬
 
 
+class Page_member(models.Model):  # 페이지 멤버
+    # Page와 1대다로 연결
+    # Page의 page_seq를 foreign key로 연결
+    page_seq = models.ForeignKey(
+        Page, on_delete=models.CASCADE, related_name='Page_member')
+    name = models.CharField(max_length=20)
+    img = models.ImageField(upload_to='images/', null=True, blank=True)
+    role = models.CharField(max_length=20)
+
+
 class Page_intro(models.Model):  # 페이지 소개
     # Page와 1대1로 연결
-    page_seq = models.OneToOneField(Page, on_delete=models.CASCADE)
+    page_seq = models.OneToOneField(
+        Page, on_delete=models.CASCADE, primary_key=True, related_name='Page_intro')
 
     intro_detail = models.CharField(max_length=500, null=True, blank=True)
     intro_link = models.CharField(max_length=500, null=True, blank=True)
-    intro_man = models.CharField(max_length=500, null=True, blank=True)
+    # intro_man = models.CharField(max_length=500, null=True, blank=True)
 
 
 class Page_notice(models.Model):  # 페이지 공지
     # Page와 1대다로 연결
     # Page의 page_seq를 foreign key로 연결
     page_seq = models.ForeignKey(
-        Page, on_delete=models.CASCADE, related_name='page_notice')
+        Page, on_delete=models.CASCADE, related_name='Page_notice')
 
-    noti_time = models.DateField()  # 작성시간
+    # 모델 생성시간
+    noti_time = models.DateField(auto_now_add=True)
     noti_con = models.CharField(max_length=500)
     noti_img = models.ImageField(upload_to='images/', null=True, blank=True)
 
@@ -67,11 +79,6 @@ class Page_notice(models.Model):  # 페이지 공지
         if not self.noti_time:
             self.noti_time = timezone.now().date()
         return super().save(*args, **kwargs)
-
-
-class Sub_page(models.Model):
-    user_seq2 = models.ForeignKey(User, on_delete=models.CASCADE)
-    page_seq = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
 class Concert_location(models.Model):  # 공연 위치
@@ -97,6 +104,7 @@ class Concert(models.Model):  # 공연
     con_time = models.DateField()
     con_whe = models.CharField(max_length=100)
     con_tag = models.ManyToManyField(Hashtag, blank=True)
+    con_link = models.CharField(max_length=100, null=True, blank=True)
     con_detail = models.CharField(max_length=500)
     PAY_CHOICES = [
         ('유료', '유료'),
@@ -109,11 +117,6 @@ class Concert(models.Model):  # 공연
 
     def __str__(self):
         return self.con_name
-
-
-class Sub_concert(models.Model):
-    user_seq2 = models.ForeignKey(User, on_delete=models.CASCADE)
-    con_seq = models.ForeignKey(Concert, on_delete=models.CASCADE)
 
 
 class Calender(models.Model):
