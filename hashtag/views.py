@@ -27,3 +27,4 @@ class HashtagAPIView(APIView):
         serializer = ConcertListSerializer(concerts, many=True)
 #        print(serializer.data)
         return Response(serializer.data)
+    
