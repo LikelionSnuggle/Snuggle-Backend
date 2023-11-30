@@ -1,7 +1,6 @@
 import rest_framework.serializers as serializers
 from .models import User, Page, Page_intro, Page_notice, Concert, Concert_location, Calender
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

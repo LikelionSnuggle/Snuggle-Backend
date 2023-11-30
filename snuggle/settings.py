@@ -123,9 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-    {
-        # 'NAME': 'users.validators.CustomPasswordValidator',  # 비밀번호 유효성 추가
-    }
 ]
 
 # AUTH_USER_MODEL = 'django_back.User'

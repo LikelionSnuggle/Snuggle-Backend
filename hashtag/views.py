@@ -4,8 +4,13 @@ from django.http import HttpResponse
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-sys.path.append("../django_back/models.py")
-from . import models
+sys.path.append("../django_back")
+from django_back import models
+
+from . import serializers
+
+from rest_framework import viewsets
+from rest_framework.views import APIView
 
 # Create your views here.
 def index(request):
@@ -19,3 +24,7 @@ def hashtag(request, hash_pk):
         'concert': concerts,
     }
     return render(request, 'hashtag.html', context)
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = models.Hashtag.objects.all()
+    serializer_class = serializers.HashtagSerializer
