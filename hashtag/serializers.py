@@ -2,10 +2,10 @@ import rest_framework.serializers as serializers
 import sys
 
 sys.path.append("../django_back")
-from django_back import models
+from django_back.models import Concert, Hashtag
 
 
 class HashtagSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Hashtag
+        model = Hashtag
         fields = '__all__'

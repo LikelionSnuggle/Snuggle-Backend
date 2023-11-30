@@ -7,24 +7,23 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.append("../django_back")
 from django_back import models
 
-from . import serializers
+from .serializers import HashtagSerializer
+from django_back.serializers import ConcertListSerializer
 
-from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
 
 # Create your views here.
 def index(request):
     return HttpResponse("Hello, world. You're at the hashtag index")
 
-def hashtag(request, hash_pk):
-    hashtag = get_object_or_404(models.Hashtag, pk=hash_pk)
-    concerts = hashtag.concert_set.order_by('-pk')
-    context = {
-        'hashtag': hashtag, 
-        'concert': concerts,
-    }
-    return render(request, 'hashtag.html', context)
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = models.Hashtag.objects.all()
-    serializer_class = serializers.HashtagSerializer
+class HashtagAPIView(APIView):
+    def get(self, request, hash_pk):
+#        print(hash_pk)
+        hashtag = get_object_or_404(models.Hashtag, pk=hash_pk)
+        concerts = hashtag.concert_set.order_by('-pk')
+#        print(concerts)
+        serializer = ConcertListSerializer(concerts, many=True)
+#        print(serializer.data)
+        return Response(serializer.data)

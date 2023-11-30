@@ -17,6 +17,7 @@ routers.register('concertlocation', ConcertLocationViewSet)
 routers.register('calender', CalenderViewSet)
 # routers.register('accounts', include('accounts.urls'))
 
+
 urlpatterns = [
     path('api/', include(routers.urls)),
     path('', include(routers.urls)),
