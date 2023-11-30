@@ -88,3 +88,13 @@ class ConcertRecent(APIView):
 class CalenderViewSet(viewsets.ModelViewSet):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
+
+
+class GetConcertListWithMonthAPI(APIView):
+    def get(self, request):
+        year = request.GET.get('year')
+        month = request.GET.get('month')
+
+        concerts = Concert.objects.filter(
+            con_time__month=month, con_time__year=year)
+        return Response(ConcertListSerializer(concerts, many=True).data)

@@ -14,7 +14,7 @@ routers.register('pageintro', PageIntroViewSet)
 routers.register('pagenotice', PageNoticeViewSet)
 # routers.register('concert', ConcertViewSet)
 routers.register('concertlocation', ConcertLocationViewSet)
-routers.register('calender', CalenderViewSet)
+# routers.register('calender', CalenderViewSet)
 # routers.register('accounts', include('accounts.urls'))
 
 urlpatterns = [
@@ -27,6 +27,7 @@ urlpatterns = [
     path('concert/near/', ConcertNear.as_view()),
     path('concert/<int:pk>/',
          ConcertDetail.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy', 'patch': 'partial_update'})),
+    path('concert/calender/', GetConcertListWithMonthAPI.as_view()),
 
     # path('accounts/', include('accounts.urls')),
 ]

@@ -50,12 +50,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_back',
     'rest_framework',
     'rest_framework.authtoken',  # 토큰 인증 추가
     'corsheaders',  # CORS 추가
     'accounts',  # accounts 추가
+    'dj_rest_auth',  # dj_rest_auth 추가
+    'dj_rest_auth.registration',  # dj_rest_auth.registration 추가
+    'allauth',  # allauth 추가
+    'allauth.account',  # allauth.account 추가
 ]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -70,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # whitenoise 추가
+    'allauth.account.middleware.AccountMiddleware',  # allauth 추가
 ]
 
 ROOT_URLCONF = 'snuggle.urls'
@@ -120,9 +130,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-    {
-        # 'NAME': 'users.validators.CustomPasswordValidator',  # 비밀번호 유효성 추가
-    }
+    # {
+    #     # 'NAME': 'users.validators.CustomPasswordValidator',  # 비밀번호 유효성 추가
+    # }
 ]
 
 # AUTH_USER_MODEL = 'django_back.User'
