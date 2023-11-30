@@ -2,6 +2,9 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 
+# from django import request
+# from main import models, serializers
+# from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -10,7 +13,6 @@ from .models import *
 from .serializers import *
 
 import haversine
-
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -88,3 +90,4 @@ class ConcertRecent(APIView):
 class CalenderViewSet(viewsets.ModelViewSet):
     queryset = Calender.objects.all()
     serializer_class = CalenderSerializer
+

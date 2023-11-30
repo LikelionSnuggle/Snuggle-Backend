@@ -19,6 +19,11 @@ from django.contrib.auth.models import User
 #     def __str__(self):
 #         return self.us_name
 
+class Hashtag(models.Model):
+    name = models.TextField(unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Page(models.Model):  # 페이지
     page_seq = models.AutoField(primary_key=True)
@@ -98,7 +103,7 @@ class Concert(models.Model):  # 공연
     con_who = models.CharField(max_length=100)
     con_time = models.DateField()
     con_whe = models.CharField(max_length=100)
-    con_tag = models.CharField(max_length=50)
+    con_tag = models.ManyToManyField(Hashtag, blank=True)
     con_link = models.CharField(max_length=100, null=True, blank=True)
     con_detail = models.CharField(max_length=500)
     PAY_CHOICES = [

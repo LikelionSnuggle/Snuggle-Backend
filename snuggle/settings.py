@@ -1,4 +1,3 @@
-import os
 """
 Django settings for snuggle project.
 
@@ -11,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_back',
     'rest_framework',
+    'django_filters',
+    'hashtag.apps.HashtagConfig',
     'rest_framework.authtoken',  # 토큰 인증 추가
     'corsheaders',  # CORS 추가
     'accounts',  # accounts 추가
@@ -88,6 +90,7 @@ TEMPLATES = [
             ],
         },
     },
+    
 ]
 
 WSGI_APPLICATION = 'snuggle.wsgi.application'
@@ -120,9 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-    {
-        # 'NAME': 'users.validators.CustomPasswordValidator',  # 비밀번호 유효성 추가
-    }
+
 ]
 
 # AUTH_USER_MODEL = 'django_back.User'
@@ -148,14 +149,21 @@ STATIC_URL = '/static/'
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+'''
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'django_back', 'static'),
 ]
+'''
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 # 미디어 파일 관련
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
