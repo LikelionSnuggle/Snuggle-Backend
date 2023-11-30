@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/', include("django_back.urls")),
     re_path(r'^media/(?P<path>.*)$', serve,
             {'document_root': settings.MEDIA_ROOT}),
-    # path('accounts/', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
