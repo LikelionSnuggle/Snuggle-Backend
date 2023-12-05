@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import os
+import json
+from django.core.exceptions import ImproperlyConfigured
 
 from pathlib import Path
 import datetime
@@ -20,8 +23,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+secret_file = os.path.join(BASE_DIR, 'secrets.json')  # secrets.json 파일 위치를 명시
+
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting):
+    """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&org)x7_jr4frt@^4zqby!ayb8@&7sy^5vveu@=6l6+^ojzttk'
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -112,20 +130,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # AUTH_USER_MODEL = 'accounts.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',  # 인증된 사용자만 접근가능
-        'rest_framework.permissions.IsAdminUser',  # 관리자만 접근가능
-        'rest_framework.permissions.AllowAny',  # 누구나 접근가능
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',  # 인증된 사용자만 접근가능
+    #     'rest_framework.permissions.IsAdminUser',  # 관리자만 접근가능
+    #     'rest_framework.permissions.AllowAny',  # 누구나 접근가능
+    # ),
 
-    'DEFAULT_RENDERER_CLASSES': (
-        # 자동으로 json으로 바꿔줌
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ),
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     # 자동으로 json으로 바꿔줌
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # ),
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     )
 
 }

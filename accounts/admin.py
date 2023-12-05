@@ -1,4 +1,5 @@
 from django.contrib import admin
 from .models import UserInfo
+from rest_framework_api_key.models import APIKey
 
-admin.site.register(UserInfo)
+admin.register(UserInfo)
