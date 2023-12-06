@@ -1,4 +1,12 @@
 from django.db import models
+
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title
+
 from django.core.validators import RegexValidator
 from django.utils import timezone
 
@@ -121,7 +129,6 @@ class Concert(models.Model):  # 공연
 class Calender(models.Model):
     page_seq = models.OneToOneField(Page, on_delete=models.CASCADE)
     con_seq = models.OneToOneField(Concert, on_delete=models.CASCADE)
-
     name = models.CharField(max_length=100)
     content = models.TextField()
 

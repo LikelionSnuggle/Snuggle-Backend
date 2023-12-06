@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,9 +16,11 @@ from .serializers import *
 import haversine
 
 
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
 
 class PageDetail(viewsets.ModelViewSet):
@@ -93,6 +96,7 @@ class CalenderViewSet(viewsets.ModelViewSet):
     serializer_class = CalenderSerializer
 
 
+
 class GetConcertListWithMonthAPI(APIView):
     def get(self, request):
         year = request.GET.get('year')
@@ -101,3 +105,4 @@ class GetConcertListWithMonthAPI(APIView):
         concerts = Concert.objects.filter(
             con_time__month=month, con_time__year=year)
         return Response(ConcertListSerializer(concerts, many=True).data)
+

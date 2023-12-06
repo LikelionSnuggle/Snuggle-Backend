@@ -2,6 +2,7 @@ from django.urls import include
 from django.contrib import admin
 from django.urls import path, include
 
+
 from .views import *
 from rest_framework import routers
 
@@ -32,6 +33,7 @@ urlpatterns = [
     path('concert/calender/', GetConcertListWithMonthAPI.as_view()),
 
     path('hashtag/', include("hashtag.urls")),
+
 ]
 
 urlpatterns += routers.urls

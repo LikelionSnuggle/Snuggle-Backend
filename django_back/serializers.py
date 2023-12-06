@@ -1,13 +1,19 @@
+
+# from .models import UserInfo
+from rest_framework import serializers
+from django.contrib.auth.models import User
 import rest_framework.serializers as serializers
 
 from .models import Page, Page_intro, Page_notice, Page_member, Concert, Concert_location, Calender
 from django.contrib.auth.models import User
 
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
 
 
 class PageIntroSerializer(serializers.ModelSerializer):
@@ -124,3 +130,4 @@ class CalenderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calender
         fields = '__all__'
+
