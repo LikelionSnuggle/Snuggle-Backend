@@ -4,9 +4,11 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 import rest_framework.serializers as serializers
 
-from .models import Page, Page_intro, Page_notice, Page_member, Concert, Concert_location, Calender
+
+from .models import Page, Page_intro, Page_notice, Page_member, Concert, Concert_location, Calender, Hashtag
 from django.contrib.auth.models import User
 
+from hashtag.serializers import HashtagSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -111,21 +113,27 @@ class ConcertDetailSerializer(serializers.ModelSerializer):
 
 class ConcertListSerializer(serializers.ModelSerializer):
     concert_location = ConcertLocationSerializer()
+    con_tag = serializers.ListSerializer(child=serializers.CharField())
+    # con_tag = HashtagSerializer(many=True)
 
     class Meta:
         model = Concert
         fields = ('con_name', 'con_who', 'con_time', 'con_whe', 'con_tag',
                   'con_pay', 'con_sum_img', 'user_seq', 'concert_location')
-
+        
     def create(self, validated_data):
+        con_tag_data = validated_data.pop('con_tag')
         concert_location_data = validated_data.pop('concert_location')
-        concert_location = Concert_location.objects.create(
-            **concert_location_data)
-        concert = Concert.objects.create(
-            concert_location=concert_location, **validated_data)
+        concert = Concert.objects.create(**validated_data, concert_location=Concert_location.objects.create(**concert_location_data))
+
+
+        for tag_data in con_tag_data:
+            tag, _ = Hashtag.objects.get_or_create(name=tag_data)
+            concert.con_tag.add(tag.id)
+
+        
         return concert
-
-
+        
 class CalenderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calender

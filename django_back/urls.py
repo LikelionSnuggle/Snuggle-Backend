@@ -21,7 +21,7 @@ routers.register('concertlocation', ConcertLocationViewSet)
 
 urlpatterns = [
     path('api/', include(routers.urls)),
-    path('', include(routers.urls)),
+#     path('', include(routers.urls)),
     path('page/', PageList.as_view({'get': 'list', 'post': 'create'})),
     path('page/<int:pk>/',
          PageDetail.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy', 'patch': 'partial_update'})),
