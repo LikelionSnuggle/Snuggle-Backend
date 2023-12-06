@@ -1,4 +1,13 @@
 from django.db import models
+
+# class User(models.Model):
+#     # user_seq = models.AutoField(primary_key=True)
+#     name = models.CharField(max_length=100)
+#     content = models.TextField()
+
+#     def __str__(self):
+#         return self.title
+
 from django.core.validators import RegexValidator
 from django.utils import timezone
 
@@ -18,12 +27,6 @@ from django.contrib.auth.models import User
 
 #     def __str__(self):
 #         return self.us_name
-
-class Hashtag(models.Model):
-    name = models.TextField(unique=True)
-
-    def __str__(self):
-        return self.name
 
 
 class Page(models.Model):  # 페이지
@@ -90,6 +93,11 @@ class Concert_location(models.Model):  # 공연 위치
 
     # TODO: 가까운 정보 추가
 
+class Hashtag(models.Model):
+    name = models.TextField(unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Concert(models.Model):  # 공연
     con_seq = models.AutoField(primary_key=True)
@@ -123,7 +131,6 @@ class Concert(models.Model):  # 공연
 class Calender(models.Model):
     page_seq = models.OneToOneField(Page, on_delete=models.CASCADE)
     con_seq = models.OneToOneField(Concert, on_delete=models.CASCADE)
-
     name = models.CharField(max_length=100)
     content = models.TextField()
 

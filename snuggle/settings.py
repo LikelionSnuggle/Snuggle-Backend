@@ -10,8 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import json
+from django.core.exceptions import ImproperlyConfigured
+import datetime
+
 import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+
 
 def get_env_variable(var_name):
     try:
@@ -29,8 +35,8 @@ def get_env_variable(var_name):
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-&org)x7_jr4frt@^4zqby!ayb8@&7sy^5vveu@=6l6+^ojzttk'
-SECRET_KEY = get_env_variable('DJANGO_SECRET')
+SECRET_KEY = 'django-insecure-&org)x7_jr4frt@^4zqby!ayb8@&7sy^5vveu@=6l6+^ojzttk'
+# SECRET_KEY = get_env_variable('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +47,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ['https://*.cloudtype.app']
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'django.contrib.sites',
     'django_back',
     'rest_framework',
@@ -58,10 +66,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # 토큰 인증 추가
     'corsheaders',  # CORS 추가
     'accounts',  # accounts 추가
-    'dj_rest_auth',  # dj_rest_auth 추가
-    'dj_rest_auth.registration',  # dj_rest_auth.registration 추가
+#     'dj_rest_auth',  # dj_rest_auth 추가
+#     'dj_rest_auth.registration',  # dj_rest_auth.registration 추가
     'allauth',  # allauth 추가
     'allauth.account',  # allauth.account 추가
+        'rest_framework_simplejwt',
+    'rest_framework_api_key',
 ]
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
@@ -72,7 +82,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
+
     'corsheaders.middleware.CorsMiddleware',  # CORS 추가
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,8 +92,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'whitenoise.middleware.WhiteNoiseMiddleware',  # whitenoise 추가
     'allauth.account.middleware.AccountMiddleware',  # allauth 추가
+
 ]
 
 ROOT_URLCONF = 'snuggle.urls'
@@ -135,13 +149,44 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH_USER_MODEL = 'django_back.User'
+REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',  # 인증된 사용자만 접근가능
+    #     'rest_framework.permissions.IsAdminUser',  # 관리자만 접근가능
+    #     'rest_framework.permissions.AllowAny',  # 누구나 접근가능
+    # ),
+
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     # 자동으로 json으로 바꿔줌
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # ),
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+
+}
+
+# JWT
+JWT_AUTH = {
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_ALGORITHM': 'HS256',  # 암호화 알고리즘
+    'JWT_ALLOW_REFRESH': True,  # refresh 사용 여부
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),  # 유효기간 설정
+    # JWT 토큰 갱신 유효기간
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
+    # import datetime 상단에 import추가해놓기
+
+}
+
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
 
 TIME_ZONE = 'UTC'
 
@@ -155,6 +200,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -164,16 +210,18 @@ STATICFILES_DIRS = [
 ]
 '''
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+# }
 
 # 미디어 파일 관련
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+SITE_ID = 1

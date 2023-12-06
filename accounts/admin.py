@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import *
 
-# Register your models here.
+from .models import UserInfo
+from rest_framework_api_key.models import APIKey
 
-# admin.site.register(User)
+admin.site.register(UserInfo)
+

@@ -2,6 +2,7 @@ from django.urls import include
 from django.contrib import admin
 from django.urls import path, include
 
+
 from .views import *
 from rest_framework import routers
 
@@ -20,7 +21,7 @@ routers.register('concertlocation', ConcertLocationViewSet)
 
 urlpatterns = [
     path('api/', include(routers.urls)),
-    path('', include(routers.urls)),
+#     path('', include(routers.urls)),
     path('page/', PageList.as_view({'get': 'list', 'post': 'create'})),
     path('page/<int:pk>/',
          PageDetail.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy', 'patch': 'partial_update'})),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('concert/calender/', GetConcertListWithMonthAPI.as_view()),
 
     path('hashtag/', include("hashtag.urls")),
+
 ]
 
 urlpatterns += routers.urls

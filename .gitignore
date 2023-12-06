@@ -1,3 +1,8 @@
+
+# .gitignore 파일
+
+secrets.json
+
 ### Django ###
 *.log
 *.pot
@@ -12,3 +17,4 @@ Snuggle-Backend/venv/
 
 ### vscdoe ###
 .vscode/
+
