@@ -19,24 +19,32 @@ from rest_framework.authtoken.models import Token
 
 class signupAPIView(APIView):
     def post(self, request, *args, **kwargs):
+        print("post!")
         serializer = UserSerializer(data=request.data)
+        
         if serializer.is_valid():
             serializer.save()
             infoData = {}
-            infoData["Username"] = serializer.data["Username"]
-            infoData["birth"] = serializer.data["birth"]
-            infoData["tel"] = serializer.data["tel"]
+            # infoData["username"] = 
+            user = User.objects.get(username=serializer.data["username"])
+            infoData["username"] = user.id
+            infoData["birth"] = request.data["birth"]
+            infoData["tel"] = request.data["tel"]
             infoData["email"] = serializer.data["email"]
             infoserializer = UserInfoSerializer(data=infoData)
 
             if infoserializer.is_valid():
+                print("true")
                 infoserializer.save()
                 print("Userinfo created successfully")
                 token = Token.objects.create(user=serializer.instance)
                 return Response({"Message": "User created successfully", "token": token.key}, status=201)
             else:
+                print("false")
                 return Response(infoserializer.errors, status=400)
-        return JsonResponse(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
+        # return JsonResponse(serializer.data)
         # return Response(UserInfoSerializer.errors, status=400)
 
 # 회원가입은 제대로 되는데, 토큰 발행이 제대로 안됨

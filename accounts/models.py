@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class UserInfo(models.Model):
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField()
     tel = models.CharField(max_length=20)
     birth = models.DateField()
