@@ -33,6 +33,7 @@ class Hashtag(models.Model):
     def __str__(self):
         return self.name
 
+
 class Page(models.Model):  # 페이지
     page_seq = models.AutoField(primary_key=True)
 
@@ -43,7 +44,8 @@ class Page(models.Model):  # 페이지
     page_name = models.CharField(max_length=100)
     # page_int = models.CharField(max_length=500, null=True, blank=True)
     # page_not = models.CharField(max_length=500, null=True, blank=True)
-    pag
+    page_img = models.ImageField(upload_to='images/', null=True, blank=True)
+
     def __str__(self):
         return self.page_name
 
