@@ -35,8 +35,8 @@ def get_env_variable(var_name):
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-&org)x7_jr4frt@^4zqby!ayb8@&7sy^5vveu@=6l6+^ojzttk'
-SECRET_KEY = get_env_variable('DJANGO_SECRET')
+SECRET_KEY = 'django-insecure-&org)x7_jr4frt@^4zqby!ayb8@&7sy^5vveu@=6l6+^ojzttk'
+# SECRET_KEY = get_env_variable('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
