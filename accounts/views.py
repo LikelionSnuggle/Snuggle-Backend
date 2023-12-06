@@ -38,7 +38,7 @@ class signupAPIView(APIView):
                 infoserializer.save()
                 print("Userinfo created successfully")
                 token = Token.objects.create(user=serializer.instance)
-                return Response({"Message": "User created successfully", "token": token.key}, status=201)
+                return Response({"Message": "User created successfully", "token": token.key, "user_id": serializer.instance.id}, status=201)
             else:
                 print("false")
                 return Response(infoserializer.errors, status=400)
