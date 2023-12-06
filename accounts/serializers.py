@@ -22,23 +22,6 @@ class UserInfoSerializer(serializers.ModelSerializer):
 # username,email,tel,birth
 
 
-# 로그인부분 시리얼라이저 - 코드 작성중입니다 ㅜㅜ !!
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(read_only=True)
+    username = serializers.CharField()
     password = serializers.CharField(write_only=True)
-
-    def validate(self, data):
-        username = data.get('username', None)
-        password = data.get('password', None)
-
-        if password is None:
-            raise serializers.ValidationError(
-                'A password is required to log in.'
-            )
-
-        user = authenticate(username=username, password=password)
-
-        if user is None:
-            raise serializers.ValidationError(
-                'A user with this username and password was not found'
-            )
